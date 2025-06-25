@@ -36,7 +36,7 @@ When copying the exercise, we recommend the following settings:
 
 - For owner, choose your personal account or an organization to host the repository.
 - We recommend creating a public repository, since private repositories will use Actions minutes.
-   
+
 If the exercise isn't ready in 20 seconds, please check the Actions tab.
 
 - Check to see if a job is running. Sometimes it simply takes a bit longer.

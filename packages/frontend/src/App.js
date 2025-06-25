@@ -94,21 +94,50 @@ function App() {
           <h2>Items from Database</h2>
           {loading && <p>Loading data...</p>}
           {error && <p className="error">{error}</p>}
-          {!loading && !error && (
-            data.length > 0 ? (
+          {!loading &&
+            !error &&
+            (data.length > 0 ? (
               <table className="items-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5em' }}>ID</th>
-                    <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5em' }}>Name</th>
-                    <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5em' }}>Actions</th>
+                    <th
+                      style={{
+                        textAlign: 'left',
+                        borderBottom: '1px solid #ccc',
+                        padding: '0.5em',
+                      }}
+                    >
+                      ID
+                    </th>
+                    <th
+                      style={{
+                        textAlign: 'left',
+                        borderBottom: '1px solid #ccc',
+                        padding: '0.5em',
+                      }}
+                    >
+                      Name
+                    </th>
+                    <th
+                      style={{
+                        textAlign: 'left',
+                        borderBottom: '1px solid #ccc',
+                        padding: '0.5em',
+                      }}
+                    >
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.map((item) => (
                     <tr key={item.id}>
-                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>{item.id}</td>
-                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>{item.name}</td>
+                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>
+                        {item.id}
+                      </td>
+                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>
+                        {item.name}
+                      </td>
                       <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>
                         <button
                           onClick={() => handleDelete(item.id)}
@@ -123,8 +152,7 @@ function App() {
               </table>
             ) : (
               <p>No items found. Add some!</p>
-            )
-          )}
+            ))}
         </section>
       </main>
     </div>

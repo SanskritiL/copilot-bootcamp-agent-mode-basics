@@ -30,10 +30,12 @@ Let's add the component library to our application. This will add the appropriat
 ### Success Criteria
 
 To complete this exercise successfully:
+
 - Ensure that references are updated to use MUI Table components
 - Ensure that the app loads successfully and has a material look and feel
 - You should additionally see MUI Table out of the box features (like sorting) now available
 
 If you encounter any issues, you can:
+
 - Ask Copilot to fix specific problems
 - Check the developer console for any errors

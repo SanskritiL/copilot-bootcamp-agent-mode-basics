@@ -12,7 +12,7 @@ permissions:
   issues: write
 
 env:
-  NEXT_MARKDOWN_FILE: ".github/steps/5-4-refactor-props-to-objects.md"
+  NEXT_MARKDOWN_FILE: '.github/steps/5-4-refactor-props-to-objects.md'
 
 jobs:
   find_exercise:

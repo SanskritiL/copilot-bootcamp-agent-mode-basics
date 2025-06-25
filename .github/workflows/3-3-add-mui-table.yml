@@ -12,8 +12,8 @@ permissions:
   issues: write
 
 env:
-  REVIEW_FILE: ".github/steps/3-x-review.md"
-  NEXT_LESSON_FILE: ".github/steps/4-1-delete-existing-tests.md"
+  REVIEW_FILE: '.github/steps/3-x-review.md'
+  NEXT_LESSON_FILE: '.github/steps/4-1-delete-existing-tests.md'
 
 jobs:
   find_exercise:
@@ -103,7 +103,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-
       - name: Get response templates
         uses: actions/checkout@v4
         with:
@@ -131,4 +130,3 @@ jobs:
           gh workflow enable "Step 4-1"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          

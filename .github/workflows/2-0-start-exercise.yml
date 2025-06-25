@@ -12,7 +12,7 @@ permissions:
   issues: write
 
 env:
-  STEP_1_FILE: ".github/steps/2-1-preparing.md"
+  STEP_1_FILE: '.github/steps/2-1-preparing.md'
 
 jobs:
   start_exercise:
@@ -21,7 +21,7 @@ jobs:
     name: Start Exercise
     uses: skills/exercise-toolkit/.github/workflows/start-exercise.yml@v0.4.0
     with:
-      exercise-title: "GitHub Copilot Bootcamp"
+      exercise-title: 'GitHub Copilot Bootcamp'
       intro-message: "Welcome to the Copilot Bootcamp tutorial! 🚀 This guided experience will take you through setting up your development environment with GitHub Codespaces, using GitHub Copilot's Agent Mode to modify the app's title, and then implementing new features. Get ready to experience the power of AI-assisted coding in a cloud development environment! 💻✨"
 
   post_next_step_content:

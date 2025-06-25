@@ -12,7 +12,7 @@ permissions:
   issues: write
 
 env:
-  STEP_3_FILE: ".github/steps/3-2-add-mui-instructions.md"
+  STEP_3_FILE: '.github/steps/3-2-add-mui-instructions.md'
 
 jobs:
   find_exercise:

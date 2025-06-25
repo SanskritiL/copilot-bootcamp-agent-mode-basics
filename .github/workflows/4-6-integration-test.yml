@@ -82,7 +82,7 @@ jobs:
           keyphrase: 'mock'
           minimum-occurrences: 1
           case-sensitive: false
-          
+
       - name: Check for integration testing approach
         id: check-integration-approach
         continue-on-error: true

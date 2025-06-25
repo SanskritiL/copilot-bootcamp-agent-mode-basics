@@ -12,9 +12,9 @@ permissions:
   issues: write
 
 env:
-  REVIEW_FILE: ".github/steps/5-x-review.md"
+  REVIEW_FILE: '.github/steps/5-x-review.md'
   # Update this to lesson 6 markdown file
-  NEXT_MARKDOWN_FILE: ".github/steps/5-6-convert-to-typescript.md"
+  NEXT_MARKDOWN_FILE: '.github/steps/5-6-convert-to-typescript.md'
 
 jobs:
   find_exercise:

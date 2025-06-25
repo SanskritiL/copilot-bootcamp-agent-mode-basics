@@ -29,10 +29,12 @@ We will first create a table without explicitly instructing copilot to use the M
 ### Success Criteria
 
 To complete this exercise successfully, ensure that:
-   - A new `feature/mui` branch is pushed
-   - `App.js` was updated with a vanilla HTML `table` implementation
+
+- A new `feature/mui` branch is pushed
+- `App.js` was updated with a vanilla HTML `table` implementation
 
 If you encounter any issues, you can:
+
 - Double check that the newly pushed branch is called `feature/mui`
 - Ask Copilot to fix specific problems
 - Check the developer console for any errors

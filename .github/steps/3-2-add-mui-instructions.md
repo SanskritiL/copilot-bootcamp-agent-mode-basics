@@ -29,9 +29,11 @@ To more precisely guide copilot, we will need to add in MUI instructions, and up
 ### Success Criteria
 
 To complete this exercise successfully, ensure that:
-   - `mui-guidelines.md` was created
-   - `copilot-instructions.md` was updated to reference `mui-guidelines.md`
+
+- `mui-guidelines.md` was created
+- `copilot-instructions.md` was updated to reference `mui-guidelines.md`
 
 If you encounter any issues, you can:
+
 - Ask Copilot to fix specific problems
 - Check the developer console for any errors

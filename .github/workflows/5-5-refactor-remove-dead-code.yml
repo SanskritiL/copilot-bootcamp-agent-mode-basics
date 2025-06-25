@@ -12,7 +12,7 @@ permissions:
   issues: write
 
 env:
-  NEXT_MARKDOWN_FILE: ".github/steps/5-6-convert-to-typescript.md"
+  NEXT_MARKDOWN_FILE: '.github/steps/5-6-convert-to-typescript.md'
 
 jobs:
   find_exercise:

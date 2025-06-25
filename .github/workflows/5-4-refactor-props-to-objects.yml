@@ -12,7 +12,7 @@ permissions:
   issues: write
 
 env:
-  NEXT_MARKDOWN_FILE: ".github/steps/5-5-refactor-remove-dead-code.md"
+  NEXT_MARKDOWN_FILE: '.github/steps/5-5-refactor-remove-dead-code.md'
 
 jobs:
   find_exercise:

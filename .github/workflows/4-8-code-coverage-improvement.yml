@@ -90,30 +90,30 @@ jobs:
         continue-on-error: true
         run: |
           found=0
-          
+
           # Check for Jest coverage config in package.json files
           if grep -q "collectCoverage\|coverageThreshold" package.json packages/*/package.json; then
             found=1
           fi
-          
+
           # Check for nyc config
           if [ -f ".nycrc" ] || [ -f ".nycrc.json" ] || grep -q "nyc" package.json packages/*/package.json; then
             found=1
           fi
-          
+
           # Check for coverage settings in Jest config files
           if [ -f "jest.config.js" ] && grep -q "coverage" jest.config.js; then
             found=1
           fi
-          
+
           if [ -f "packages/frontend/jest.config.js" ] && grep -q "coverage" packages/frontend/jest.config.js; then
             found=1
           fi
-          
+
           if [ -f "packages/backend/jest.config.js" ] && grep -q "coverage" packages/backend/jest.config.js; then
             found=1
           fi
-          
+
           if [ $found -eq 0 ]; then
             echo "No coverage configuration found"
             exit 1
@@ -191,7 +191,7 @@ jobs:
             --body-file ".github/steps/4-x-review.md"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Create comment - add step content
         run: |
           gh issue comment "$ISSUE_URL" \
