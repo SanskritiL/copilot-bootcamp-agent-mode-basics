@@ -95,24 +95,35 @@ function App() {
           {loading && <p>Loading data...</p>}
           {error && <p className="error">{error}</p>}
           {!loading && !error && (
-            <ul>
-              {data.length > 0 ? (
-                data.map((item) => (
-                  <li key={item.id}>
-                    {item.name}
-                    <button
-                      onClick={() => handleDelete(item.id)}
-                      style={{ marginLeft: '1em' }}
-                      aria-label={`Delete ${item.name}`}
-                    >
-                      Delete
-                    </button>
-                  </li>
-                ))
-              ) : (
-                <p>No items found. Add some!</p>
-              )}
-            </ul>
+            data.length > 0 ? (
+              <table className="items-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5em' }}>ID</th>
+                    <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5em' }}>Name</th>
+                    <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5em' }}>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map((item) => (
+                    <tr key={item.id}>
+                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>{item.id}</td>
+                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>{item.name}</td>
+                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          aria-label={`Delete ${item.name}`}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No items found. Add some!</p>
+            )
           )}
         </section>
       </main>
