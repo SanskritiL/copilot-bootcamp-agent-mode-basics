@@ -75,7 +75,7 @@ function App() {
         <h1>Hello World</h1>
         <p>Connected to in-memory database</p>
       </header>
-      
+
       <main>
         <section className="add-item-section">
           <h2>Add New Item</h2>
@@ -100,7 +100,13 @@ function App() {
                 data.map((item) => (
                   <li key={item.id}>
                     {item.name}
-                    <button onClick={() => handleDelete(item.id)} style={{ marginLeft: '1em' }} aria-label={`Delete ${item.name}`}>Delete</button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      style={{ marginLeft: '1em' }}
+                      aria-label={`Delete ${item.name}`}
+                    >
+                      Delete
+                    </button>
                   </li>
                 ))
               ) : (

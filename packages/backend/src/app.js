@@ -27,7 +27,7 @@ db.exec(`
 const initialItems = ['Item 1', 'Item 2', 'Item 3'];
 const insertStmt = db.prepare('INSERT INTO items (name) VALUES (?)');
 
-initialItems.forEach(item => {
+initialItems.forEach((item) => {
   insertStmt.run(item);
 });
 
@@ -47,14 +47,14 @@ app.get('/api/items', (req, res) => {
 app.post('/api/items', (req, res) => {
   try {
     const { name } = req.body;
-    
+
     if (!name || typeof name !== 'string' || name.trim() === '') {
       return res.status(400).json({ error: 'Item name is required' });
     }
-    
+
     const result = insertStmt.run(name);
     const id = result.lastInsertRowid;
-    
+
     const newItem = db.prepare('SELECT * FROM items WHERE id = ?').get(id);
     res.status(201).json(newItem);
   } catch (error) {
