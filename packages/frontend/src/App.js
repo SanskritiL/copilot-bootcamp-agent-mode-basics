@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import './App.css';
 
 function App() {
@@ -94,65 +101,39 @@ function App() {
           <h2>Items from Database</h2>
           {loading && <p>Loading data...</p>}
           {error && <p className="error">{error}</p>}
-          {!loading &&
-            !error &&
-            (data.length > 0 ? (
-              <table className="items-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr>
-                    <th
-                      style={{
-                        textAlign: 'left',
-                        borderBottom: '1px solid #ccc',
-                        padding: '0.5em',
-                      }}
-                    >
-                      ID
-                    </th>
-                    <th
-                      style={{
-                        textAlign: 'left',
-                        borderBottom: '1px solid #ccc',
-                        padding: '0.5em',
-                      }}
-                    >
-                      Name
-                    </th>
-                    <th
-                      style={{
-                        textAlign: 'left',
-                        borderBottom: '1px solid #ccc',
-                        padding: '0.5em',
-                      }}
-                    >
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.map((item) => (
-                    <tr key={item.id}>
-                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>
-                        {item.id}
-                      </td>
-                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>
-                        {item.name}
-                      </td>
-                      <td style={{ padding: '0.5em', borderBottom: '1px solid #eee' }}>
-                        <button
-                          onClick={() => handleDelete(item.id)}
-                          aria-label={`Delete ${item.name}`}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {!loading && !error && (
+            data.length > 0 ? (
+              <TableContainer component={Paper} sx={{ mt: 2 }}>
+                <Table aria-label="items table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>ID</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Actions</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data.map((item) => (
+                      <TableRow key={item.id}>
+                        <TableCell>{item.id}</TableCell>
+                        <TableCell>{item.name}</TableCell>
+                        <TableCell>
+                          <button
+                            onClick={() => handleDelete(item.id)}
+                            aria-label={`Delete ${item.name}`}
+                          >
+                            Delete
+                          </button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             ) : (
               <p>No items found. Add some!</p>
-            ))}
+            )
+          )}
         </section>
       </main>
     </div>
