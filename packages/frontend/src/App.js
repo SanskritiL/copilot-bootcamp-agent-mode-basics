@@ -12,6 +12,7 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
   const [newItem, setNewItem] = useState('');
 
   useEffect(() => {
@@ -36,6 +37,7 @@ function App() {
     }
   };
 
+  // Only clear deleteError on successful delete or when user adds a new item
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newItem.trim()) return;
@@ -56,6 +58,7 @@ function App() {
       const result = await response.json();
       setData([...data, result]);
       setNewItem('');
+      setDeleteError(null); // Clear delete error on add
     } catch (err) {
       setError('Error adding item: ' + err.message);
       console.error('Error adding item:', err);
@@ -67,10 +70,14 @@ function App() {
     try {
       const response = await fetch(`/api/items/${id}`, { method: 'DELETE' });
       if (!response.ok) {
-        throw new Error('Failed to delete item');
+        setDeleteError('Failed to delete item');
+        // Do not remove the item from the list if delete fails
+        return;
       }
-      setData(data.filter((item) => item.id !== id));
+      setData((prev) => prev.filter((item) => item.id !== id));
+      setDeleteError(null);
     } catch (err) {
+      setDeleteError('Failed to delete item');
       setError('Error deleting item: ' + err.message);
       console.error('Error deleting item:', err);
     }
@@ -78,6 +85,7 @@ function App() {
 
   return (
     <div className="App">
+      {deleteError && <p className="error">{deleteError}</p>}
       <header className="App-header">
         <h1>Hello World</h1>
         <p>Connected to in-memory database</p>
