@@ -1,13 +1,21 @@
 const request = require('supertest');
 const { app, db, insertStmt } = require('../src/app');
 
+/**
+ * Helper to insert a test item and return its id.
+ * Only one value (name) is required for insertStmt.
+ */
+function insertTestItem(name = 'Test Item') {
+  const info = insertStmt.run(name);
+  return info.lastInsertRowid;
+}
+
 describe('DELETE /api/items/:id', () => {
   let itemId;
 
   beforeEach(() => {
     // Insert a test item before each test
-    const info = insertStmt.run('Test Item', 'Test Description');
-    itemId = info.lastInsertRowid;
+    itemId = insertTestItem();
   });
 
   afterEach(() => {
@@ -37,11 +45,11 @@ describe('DELETE /api/items/:id', () => {
 
   it('should handle server errors gracefully', async () => {
     // Temporarily break the DB to simulate error
-    const origRun = db.prepare;
+    const origPrepare = db.prepare;
     db.prepare = () => { throw new Error('DB error'); };
     const res = await request(app).delete(`/api/items/${itemId}`);
     expect(res.status).toBe(500);
     expect(res.body).toHaveProperty('error', 'Failed to delete item');
-    db.prepare = origRun;
+    db.prepare = origPrepare;
   });
 });
