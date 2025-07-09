@@ -147,6 +147,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMENT_BODY: ${{ steps.build-message-step-results.outputs.updated-text }}
 
+      - name: Debug step outcomes
+        run: |
+          echo "Overall result: ${{ contains(steps.*.outcome, 'failure') && 'FAILURE' || 'SUCCESS' }}"
+          echo ""
+          echo "Failed steps (if any):"
+          echo '${{ toJSON(steps) }}' | jq -r 'to_entries[] | select(.value.outcome == "failure") | "❌ \(.key)"' || echo "No failures detected"
+
       - name: Fail job if not all checks passed
         if: contains(steps.*.outcome, 'failure')
         run: exit 1

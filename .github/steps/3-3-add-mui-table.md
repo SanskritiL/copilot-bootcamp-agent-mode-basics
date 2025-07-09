@@ -8,13 +8,10 @@ Let's add the component library to our application. This will add the appropriat
 
 1. Open the **Copilot** chat panel and switch to **Agent** mode using the dropdown menu. Be sure to add the `frontend/` folder to the context view.
 
-2. Use the following prompt to ask Copilot to add the MUI component library:
+2. In the Copilot chat input field, use your own words to ask Copilot to convert the item-section to a table.
 
-   > ![Static Badge](https://img.shields.io/badge/-Prompt-text?style=social&logo=github%20copilot)
-   >
-   > ```prompt
-   > Convert our item-section to a table
-   > ```
+   - For example, you might say: "Convert the item-section to a table".
+   - The exact wording is up to you—just make sure your intent is clear!
 
 3. Copilot will analyze your codebase and implement:
    - updating `package.json` to add and install MUI dependencies
@@ -30,12 +27,10 @@ Let's add the component library to our application. This will add the appropriat
 ### Success Criteria
 
 To complete this exercise successfully:
-
 - Ensure that references are updated to use MUI Table components
 - Ensure that the app loads successfully and has a material look and feel
 - You should additionally see MUI Table out of the box features (like sorting) now available
 
 If you encounter any issues, you can:
-
 - Ask Copilot to fix specific problems
 - Check the developer console for any errors

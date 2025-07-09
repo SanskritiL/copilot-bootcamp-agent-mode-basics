@@ -48,8 +48,8 @@ jobs:
         id: check-eslint-config
         continue-on-error: true
         run: |
-          # Check for ESLint configs in packages using find command
-          if find packages -name ".eslintrc*" | grep -q .; then
+          # Check for ESLint configs in packages using find command (both legacy .eslintrc* and new eslint.config.*)
+          if find packages \( -name ".eslintrc*" -o -name "eslint.config.js" -o -name "eslint.config.mjs" \) | grep -q .; then
             echo "ESLint config found in packages!"
           else
             echo "No ESLint config found in packages!" && exit 1

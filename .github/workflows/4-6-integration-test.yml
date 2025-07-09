@@ -82,7 +82,7 @@ jobs:
           keyphrase: 'mock'
           minimum-occurrences: 1
           case-sensitive: false
-
+          
       - name: Check for integration testing approach
         id: check-integration-approach
         continue-on-error: true
@@ -146,9 +146,9 @@ jobs:
             passed: ${{ !contains(steps.*.outcome, 'failure') }}
             results_table:
               - description: "Tests for handleDelete function should exist in packages/frontend/src/__tests__/App.test.js"
-                passed: ${{ steps.check-delete-tests.outcome == 'success' }}
+                passed: ${{ steps.check-handle-delete-function.outcome == 'success' }}
               - description: "Integration tests should include proper testing structure with mocks"
-                passed: ${{ steps.check-test-structure.outcome == 'success' }}
+                passed: ${{ steps.check-mock-usage.outcome == 'success' }}
               - description: "Frontend tests should run successfully without errors"
                 passed: ${{ steps.run-frontend-tests.outcome == 'success' }}
 
@@ -160,6 +160,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMENT_BODY: ${{ steps.build-message-step-results.outputs.updated-text }}
+
+      - name: Debug step outcomes
+        run: |
+          echo "Overall result: ${{ contains(steps.*.outcome, 'failure') && 'FAILURE' || 'SUCCESS' }}"
+          echo ""
+          echo "Failed steps (if any):"
+          echo '${{ toJSON(steps) }}' | jq -r 'to_entries[] | select(.value.outcome == "failure") | "❌ \(.key)"' || echo "No failures detected"
 
       - name: Fail job if not all checks passed
         if: contains(steps.*.outcome, 'failure')
