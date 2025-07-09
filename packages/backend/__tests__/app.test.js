@@ -72,6 +72,15 @@ describe('DELETE /api/items/:id', () => {
 
 describe('API Endpoints', () => {
   describe('GET /api/items', () => {
+    beforeEach(() => {
+      // Clean up and ensure exactly one item exists before each GET test
+      db.prepare('DELETE FROM items').run();
+      insertTestItem('Sample Item');
+    });
+    afterEach(() => {
+      // Clean up after each GET test
+      db.prepare('DELETE FROM items').run();
+    });
     it('should return all items', async () => {
       const response = await request(app).get('/api/items');
       expect(response.status).toBe(200);
