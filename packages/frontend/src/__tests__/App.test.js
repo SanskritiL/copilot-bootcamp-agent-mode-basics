@@ -163,3 +163,35 @@ describe('Create functionality', () => {
     });
   });
 });
+
+describe('Load items functionality', () => {
+  it('should load items on mount', async () => {
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => [
+        { id: 1, name: 'Item 1' },
+        { id: 2, name: 'Item 2' },
+      ],
+    });
+    render(<App />);
+    // Wait for items to load
+    expect(await screen.findByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
+  });
+});
+
+describe('Display items functionality', () => {
+  it('should display items in the table', async () => {
+    fetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => [
+        { id: 1, name: 'Display Item 1' },
+        { id: 2, name: 'Display Item 2' },
+      ],
+    });
+    render(<App />);
+    // Wait for items to display
+    expect(await screen.findByText('Display Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Display Item 2')).toBeInTheDocument();
+  });
+});
