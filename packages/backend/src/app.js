@@ -63,18 +63,33 @@ app.post('/api/items', (req, res) => {
   }
 });
 
-// DELETE /api/items/:id - delete an item by id
+/**
+ * DELETE /api/items/:id
+ * Only allows deleting items that are 5 days old or older.
+ */
 app.delete('/api/items/:id', (req, res) => {
   try {
-    const id = parseInt(req.params.id, 10);
-    if (isNaN(id)) {
+    const { id } = req.params;
+    // Validate id is a positive integer
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId) || parsedId <= 0) {
       return res.status(400).json({ error: 'Invalid item id' });
     }
-    const stmt = db.prepare('DELETE FROM items WHERE id = ?');
-    const result = stmt.run(id);
-    if (result.changes === 0) {
+    // Fetch the item
+    const item = db.prepare('SELECT * FROM items WHERE id = ?').get(parsedId);
+    if (!item) {
       return res.status(404).json({ error: 'Item not found' });
     }
+    // Check if item is at least 5 days old
+    const createdAt = new Date(item.created_at);
+    const now = new Date();
+    const diffMs = now - createdAt;
+    const diffDays = diffMs / (1000 * 60 * 60 * 24);
+    if (diffDays < 5) {
+      return res.status(403).json({ error: 'Only items 5 days or older can be deleted' });
+    }
+    // Delete the item
+    db.prepare('DELETE FROM items WHERE id = ?').run(parsedId);
     res.status(204).send();
   } catch (error) {
     console.error('Error deleting item:', error);
