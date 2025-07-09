@@ -127,4 +127,31 @@ describe('API Endpoints', () => {
       expect(response.body.error).toBe('Item name is required');
     });
   });
+
+  describe('GET /api/items error handling', () => {
+    it('should return 500 if there is a database error', async () => {
+      // Simulate DB error
+      const origPrepare = db.prepare;
+      db.prepare = () => { throw new Error('DB error'); };
+      const response = await request(app).get('/api/items');
+      expect(response.status).toBe(500);
+      expect(response.body).toHaveProperty('error', 'Failed to fetch items');
+      db.prepare = origPrepare;
+    });
+  });
+
+  describe('POST /api/items error handling', () => {
+    it('should return 500 if there is a database error', async () => {
+      // Simulate DB error
+      const origPrepare = db.prepare;
+      db.prepare = () => { throw new Error('DB error'); };
+      const response = await request(app)
+        .post('/api/items')
+        .send({ name: 'Test Item' })
+        .set('Accept', 'application/json');
+      expect(response.status).toBe(500);
+      expect(response.body).toHaveProperty('error', 'Failed to create item');
+      db.prepare = origPrepare;
+    });
+  });
 });
