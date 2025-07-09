@@ -86,3 +86,81 @@ describe('Delete functionality', () => {
     });
   });
 });
+
+describe('Create functionality', () => {
+  it('adds a new item to the table on successful create', async () => {
+    // Arrange: initial fetch returns one item
+    fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => [{ id: 1, name: 'Item 1' }],
+      })
+      // POST call returns new item
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ id: 2, name: 'New Item' }),
+      });
+
+    render(<App />);
+    expect(await screen.findByText('Item 1')).toBeInTheDocument();
+
+    // Act: fill input and submit
+    fireEvent.change(screen.getByPlaceholderText(/enter item name/i), {
+      target: { value: 'New Item' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /add/i }));
+
+    // Assert: new item appears
+    await waitFor(() => {
+      expect(screen.getByText('New Item')).toBeInTheDocument();
+      expect(screen.getByText('Item 1')).toBeInTheDocument();
+    });
+  });
+
+  it('shows error if create fails', async () => {
+    fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => [{ id: 1, name: 'Item 1' }],
+      })
+      // POST call fails
+      .mockResolvedValueOnce({ ok: false });
+
+    render(<App />);
+    expect(await screen.findByText('Item 1')).toBeInTheDocument();
+
+    fireEvent.change(screen.getByPlaceholderText(/enter item name/i), {
+      target: { value: 'New Item' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /add/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText('Failed to create item')).toBeInTheDocument();
+      expect(screen.queryByText('New Item')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows error if fetch throws during create', async () => {
+    fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => [{ id: 1, name: 'Item 1' }],
+      })
+      // POST call throws
+      .mockRejectedValueOnce(new Error('Network error'));
+
+    render(<App />);
+    expect(await screen.findByText('Item 1')).toBeInTheDocument();
+
+    fireEvent.change(screen.getByPlaceholderText(/enter item name/i), {
+      target: { value: 'New Item' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: /add/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText('Failed to create item')).toBeInTheDocument();
+      expect(screen.getByText('Error creating item: Network error')).toBeInTheDocument();
+      expect(screen.queryByText('New Item')).not.toBeInTheDocument();
+    });
+  });
+});
