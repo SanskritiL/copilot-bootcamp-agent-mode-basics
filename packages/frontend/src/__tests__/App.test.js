@@ -195,3 +195,87 @@ describe('Display items functionality', () => {
     expect(screen.getByText('Display Item 2')).toBeInTheDocument();
   });
 });
+
+describe('Delete item integration', () => {
+  it('should remove the item from the UI and call the API when delete is confirmed', async () => {
+    // Mock initial fetch with two items
+    fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => [
+          { id: 1, name: 'Integration Item 1' },
+          { id: 2, name: 'Integration Item 2' },
+        ],
+      })
+      // Mock delete call
+      .mockResolvedValueOnce({ ok: true });
+
+    render(<App />);
+    // Wait for items to load
+    expect(await screen.findByText('Integration Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Integration Item 2')).toBeInTheDocument();
+
+    // Act: click delete on first item
+    fireEvent.click(screen.getAllByRole('button', { name: /delete/i })[0]);
+
+    // Assert: Item 1 should be removed from UI
+    await waitFor(() => {
+      expect(screen.queryByText('Integration Item 1')).not.toBeInTheDocument();
+      expect(screen.getByText('Integration Item 2')).toBeInTheDocument();
+    });
+    // Assert: fetch called with DELETE
+    expect(fetch).toHaveBeenCalledWith('/api/items/1', expect.objectContaining({ method: 'DELETE' }));
+  });
+
+  it('should show error and not remove item if API delete fails', async () => {
+    // Mock initial fetch with two items
+    fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => [
+          { id: 1, name: 'Integration Item 1' },
+          { id: 2, name: 'Integration Item 2' },
+        ],
+      })
+      // Mock failed delete call
+      .mockResolvedValueOnce({ ok: false });
+
+    render(<App />);
+    expect(await screen.findByText('Integration Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Integration Item 2')).toBeInTheDocument();
+
+    fireEvent.click(screen.getAllByRole('button', { name: /delete/i })[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText('Failed to delete item')).toBeInTheDocument();
+      expect(screen.getByText('Integration Item 1')).toBeInTheDocument();
+      expect(screen.getByText('Integration Item 2')).toBeInTheDocument();
+    });
+  });
+
+  it('should show error if network error occurs during delete', async () => {
+    // Mock initial fetch with two items
+    fetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => [
+          { id: 1, name: 'Integration Item 1' },
+          { id: 2, name: 'Integration Item 2' },
+        ],
+      })
+      // Mock network error on delete
+      .mockRejectedValueOnce(new Error('Network error'));
+
+    render(<App />);
+    expect(await screen.findByText('Integration Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Integration Item 2')).toBeInTheDocument();
+
+    fireEvent.click(screen.getAllByRole('button', { name: /delete/i })[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText('Failed to delete item')).toBeInTheDocument();
+      expect(screen.getByText('Error deleting item: Network error')).toBeInTheDocument();
+      // Do not check for any items, as the UI may clear the list on error
+    });
+  });
+});
