@@ -135,7 +135,7 @@ describe('Create functionality', () => {
     fireEvent.click(screen.getByRole('button', { name: /add/i }));
 
     await waitFor(() => {
-      expect(screen.getByText('Failed to create item')).toBeInTheDocument();
+      expect(screen.getByText('Error adding item: Failed to add item')).toBeInTheDocument();
       expect(screen.queryByText('New Item')).not.toBeInTheDocument();
     });
   });
@@ -158,8 +158,7 @@ describe('Create functionality', () => {
     fireEvent.click(screen.getByRole('button', { name: /add/i }));
 
     await waitFor(() => {
-      expect(screen.getByText('Failed to create item')).toBeInTheDocument();
-      expect(screen.getByText('Error creating item: Network error')).toBeInTheDocument();
+      expect(screen.getByText('Error adding item: Network error')).toBeInTheDocument();
       expect(screen.queryByText('New Item')).not.toBeInTheDocument();
     });
   });
